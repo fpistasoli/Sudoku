@@ -2837,6 +2837,7 @@ GameObject:
   - component: {fileID: 1676681140}
   - component: {fileID: 1676681139}
   - component: {fileID: 1676681138}
+  - component: {fileID: 1676681142}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2925,6 +2926,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1676681142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676681137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da7b26194d5907646880b8aa2db57b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberButtons:
+  - {fileID: 1964471856}
+  - {fileID: 1935703756}
+  - {fileID: 640323639}
+  - {fileID: 681489687}
+  - {fileID: 1658628087}
+  - {fileID: 868942790}
+  - {fileID: 1067322049}
+  - {fileID: 1266502323}
+  - {fileID: 1737507303}
+  eraseButton: {fileID: 193942872}
+  board: {fileID: 1622096194384861449}
 --- !u!1 &1737507301
 GameObject:
   m_ObjectHideFlags: 0
@@ -5798,3 +5823,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8baa59b45efe1a4fb69eb10fd7ddae5, type: 3}
+--- !u!114 &1622096194384861449 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6612863108623107056, guid: b8baa59b45efe1a4fb69eb10fd7ddae5, type: 3}
+  m_PrefabInstance: {fileID: 1622096194384861448}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a293cc31f6bfa4dbc27e44409977fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
