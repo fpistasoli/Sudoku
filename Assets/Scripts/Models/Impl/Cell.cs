@@ -54,6 +54,11 @@ namespace Sudoku.Models.Impl
             Select(true);
         }
 
+        public Text GetCellNumberText()
+        {
+            return cellText.GetComponent<Text>();
+        }
+
         private void Highlight(bool on)
         {
             if (on)

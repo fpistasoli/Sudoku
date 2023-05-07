@@ -16,17 +16,26 @@ namespace Sudoku.UI
         [SerializeField] private Button[] numberButtons;
         [SerializeField] private Button eraseButton;
         [SerializeField] private Board board;
-        [SerializeField] private LayerMask mouseCellLayerMask;
+
+        private Cell CurrentSelectedCell { get; set; }
 
 
         private void OnEnable()
         {
-            Cell.selectedCell += OnSelectUniqueCell;
+            Cell.selectedCell += OnDeselectAllCells;
+            Number.selectedNumber += OnSelectNumber;
         }
+
 
         private void OnDisable()
         {
-            Cell.selectedCell -= OnSelectUniqueCell;
+            Cell.selectedCell -= OnDeselectAllCells;
+            Number.selectedNumber -= OnSelectNumber;
+        }
+
+        private void Awake()
+        {
+            CurrentSelectedCell = null;
         }
 
         // Start is called before the first frame update
@@ -42,12 +51,34 @@ namespace Sudoku.UI
 
         }
    
-        private void OnSelectUniqueCell()
+        private void OnDeselectAllCells()
         {
             foreach(ICell cell in board.Cells)
             {
                 cell.Select(false);
             }
+        }
+
+        private void OnSelectNumber(string selectedNumber)
+        {
+            if (!TryGetCurrentSelectedCell(out Cell currentSelectedCell)) return;
+
+            currentSelectedCell.GetCellNumberText().text = selectedNumber;
+        }
+
+        private bool TryGetCurrentSelectedCell(out Cell currentSelectedCell)
+        {
+            foreach(Cell cell in board.Cells)
+            {
+                if(cell.IsSelected)
+                {
+                    currentSelectedCell = cell;
+                    return true;
+                }
+            }
+
+            currentSelectedCell = null;
+            return false;
         }
     }
 }
