@@ -54,9 +54,8 @@ namespace Sudoku.UI
         public void OnEraseSelectedCellNumber()
         {
             if (!TryGetCurrentSelectedCell(out Cell currentSelectedCell)) return;
-
             CurrentSelectedCell = currentSelectedCell;
-
+            if (CurrentSelectedCell.IsCorrect()) return;
             CurrentSelectedCell.GetCellNumberText().text = String.Empty;
         }
 
@@ -71,9 +70,7 @@ namespace Sudoku.UI
         private void OnSelectNumber(string selectedNumber)
         {
             if (!TryGetCurrentSelectedCell(out Cell currentSelectedCell)) return;
-
             CurrentSelectedCell = currentSelectedCell;
-
             CurrentSelectedCell.GetCellNumberText().text = selectedNumber;
         }
 

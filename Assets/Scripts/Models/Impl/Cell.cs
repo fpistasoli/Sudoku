@@ -1,5 +1,6 @@
 using Sudoku.Models.DataContracts;
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,7 +16,9 @@ namespace Sudoku.Models.Impl
 
         [SerializeField] private GameObject cellText;
 
-        private bool isSelected;
+        private bool _isSelected;
+        private bool _isCorrect;
+        private int _correctValue;
         private Image backgroundImage;
         private Color highlightedOffColor;
         private Color highlightedOnColor = Color.cyan;
@@ -24,7 +27,8 @@ namespace Sudoku.Models.Impl
         {
             backgroundImage = GetComponent<Image>();
             highlightedOffColor = backgroundImage.color;
-            isSelected = false;
+            _isSelected = false;
+            _isCorrect = true;
         }
 
 
@@ -40,11 +44,11 @@ namespace Sudoku.Models.Impl
 
         }
 
-        public bool IsSelected => isSelected;
+        public bool IsSelected => _isSelected;
 
         public void Select(bool on)
         {
-            isSelected = on;
+            _isSelected = on;
             Highlight(on);
         }
 
@@ -54,10 +58,41 @@ namespace Sudoku.Models.Impl
             Select(true);
         }
 
-        public Text GetCellNumberText()
+        public Text GetCellNumberText() => cellText.GetComponent<Text>();
+
+        public int GetCellNumber()
         {
-            return cellText.GetComponent<Text>();
+            return IsValidCellNumber() ? int.Parse(GetCellNumberText().text) : 0;
         }
+
+        public void SetCellNumber(int number)
+        {
+            cellText.GetComponent<Text>().text = number.ToString();
+        }
+
+        public bool IsValidCellNumber()
+        {
+            Text textComponent = cellText.GetComponent<Text>();
+
+            return textComponent.text != String.Empty && 
+                Enumerable.Range(1, 9).Contains(int.Parse(textComponent.text));
+        }
+
+        public void HideCellNumberIfZero()
+        {
+            if (int.Parse(GetCellNumberText().text) == 0)
+            {
+                cellText.GetComponent<Text>().text = String.Empty;
+            }
+        }
+
+        public bool IsCorrect() => _isCorrect;
+
+        public void SetCorrectCell(bool isCorrect) => _isCorrect = isCorrect;
+
+        public void SetCorrectValue(int correctValue) => _correctValue = correctValue;
+
+        public int GetCorrectValue() => _correctValue;
 
         private void Highlight(bool on)
         {
