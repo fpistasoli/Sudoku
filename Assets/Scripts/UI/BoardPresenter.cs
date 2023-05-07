@@ -17,6 +17,8 @@ namespace Sudoku.UI
         [SerializeField] private Button eraseButton;
         [SerializeField] private Board board;
 
+        private Color _correctColor;
+        private Color _wrongColor;
         private Cell CurrentSelectedCell { get; set; }
 
 
@@ -38,13 +40,12 @@ namespace Sudoku.UI
             CurrentSelectedCell = null;
         }
 
-        // Start is called before the first frame update
         void Start()
         {
-
+            _correctColor = Color.blue;
+            _wrongColor = Color.red;
         }
 
-        // Update is called once per frame
         void Update()
         {
      
@@ -70,8 +71,29 @@ namespace Sudoku.UI
         private void OnSelectNumber(string selectedNumber)
         {
             if (!TryGetCurrentSelectedCell(out Cell currentSelectedCell)) return;
+
             CurrentSelectedCell = currentSelectedCell;
+
+            if (CurrentSelectedCell.IsCorrect()) return;
+
             CurrentSelectedCell.GetCellNumberText().text = selectedNumber;
+            bool isCorrect = CurrentSelectedCell.GetCorrectValue() == int.Parse(selectedNumber);
+            MarkCurrentCellAsCorrect(isCorrect);
+            CurrentSelectedCell.SetCorrectCell(isCorrect);
+        }
+
+        private void MarkCurrentCellAsCorrect(bool isCorrect)
+        {
+            if (isCorrect)
+            {
+                CurrentSelectedCell.GetCellNumberText().color = _correctColor;
+            }
+            else
+            {
+                CurrentSelectedCell.GetCellNumberText().color = _wrongColor;
+            }
+
+
         }
 
         private bool TryGetCurrentSelectedCell(out Cell currentSelectedCell)

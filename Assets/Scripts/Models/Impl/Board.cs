@@ -11,7 +11,7 @@ namespace Sudoku.Models.Impl
     {
 
         [SerializeField] private Cell[] cells;
-        private Cell[,] grid;
+        private Cell[,] _grid;
         
 
         // Start is called before the first frame update
@@ -42,7 +42,7 @@ namespace Sudoku.Models.Impl
 
         private void GridSetup()
         {
-            grid = new Cell[9, 9];
+            _grid = new Cell[9, 9];
 
             var cellIndex = 0;
 
@@ -50,7 +50,7 @@ namespace Sudoku.Models.Impl
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    grid[i, j] = cells[cellIndex];
+                    _grid[i, j] = cells[cellIndex];
                     cellIndex++;
                 }
             }
@@ -60,7 +60,7 @@ namespace Sudoku.Models.Impl
         {
             for(int j=0; j<9; j++)
             {
-                if(grid[row,j].GetCellNumber() == number)
+                if(_grid[row,j].GetCellNumber() == number)
                 {
                     return false;
                 }
@@ -73,7 +73,7 @@ namespace Sudoku.Models.Impl
         {
             for (int i = 0; i < 9; i++)
             {
-                if (grid[i, col].GetCellNumber() == number)
+                if (_grid[i, col].GetCellNumber() == number)
                 {
                     return false;
                 }
@@ -91,7 +91,7 @@ namespace Sudoku.Models.Impl
             {
                 for (int j = boxCol; j < boxCol + 3; j++)
                 {
-                    if (grid[i, j].GetCellNumber() == number)
+                    if (_grid[i, j].GetCellNumber() == number)
                     {
                         return false;
                     }
@@ -106,7 +106,7 @@ namespace Sudoku.Models.Impl
             {
                 for (int col = 0; col < 9; col++)
                 {
-                    grid[row, col].SetCellNumber(0);
+                    _grid[row, col].SetCellNumber(0);
                 }
             }
 
@@ -137,7 +137,7 @@ namespace Sudoku.Models.Impl
 
             foreach (int num in potentialValues)
             {
-                Cell currentCell = grid[row, col];
+                Cell currentCell = _grid[row, col];
                 currentCell.SetCellNumber(num);
                 currentCell.SetCorrectValue(num);
 
@@ -162,7 +162,7 @@ namespace Sudoku.Models.Impl
                 int row = rand.Next(0, 9);
                 int col = rand.Next(0, 9);
 
-                Cell cellToRemove = grid[row, col];
+                Cell cellToRemove = _grid[row, col];
 
                 if (cellToRemove.GetCellNumber() != 0)
                 {
@@ -175,15 +175,12 @@ namespace Sudoku.Models.Impl
                 }
             }
 
-            foreach(Cell cell in grid)
+            foreach(Cell cell in _grid)
             {
                 if(cell.GetCellNumber() == 0)
                 {
                     cell.HideCellNumberIfZero();
                 }
-
-                Debug.Log(cell.IsCorrect());
-
             }
         }
     }
