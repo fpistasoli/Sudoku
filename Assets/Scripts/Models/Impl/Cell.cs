@@ -19,14 +19,14 @@ namespace Sudoku.Models.Impl
         private bool _isSelected;
         private bool _isCorrect;
         private int _correctValue;
-        private Image backgroundImage;
-        private Color highlightedOffColor;
-        private Color highlightedOnColor = Color.cyan;
+        private Image _backgroundImage;
+        private Color _highlightedOffColor;
+        private Color _highlightedOnColor = Color.cyan;
 
         private void Awake()
         {
-            backgroundImage = GetComponent<Image>();
-            highlightedOffColor = backgroundImage.color;
+            _backgroundImage = GetComponent<Image>();
+            _highlightedOffColor = _backgroundImage.color;
             _isSelected = false;
             _isCorrect = true;
         }
@@ -98,11 +98,11 @@ namespace Sudoku.Models.Impl
         {
             if (on)
             {
-                backgroundImage.color = highlightedOnColor;
+                _backgroundImage.color = _highlightedOnColor;
             }
             else
             {
-                backgroundImage.color = highlightedOffColor;
+                _backgroundImage.color = _highlightedOffColor;
             }
         }
 
