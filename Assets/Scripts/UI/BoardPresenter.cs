@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Sudoku.UI
@@ -19,7 +21,12 @@ namespace Sudoku.UI
 
         private void OnEnable()
         {
-            //event handlers
+            Cell.selectedCell += OnSelectUniqueCell;
+        }
+
+        private void OnDisable()
+        {
+            Cell.selectedCell -= OnSelectUniqueCell;
         }
 
         // Start is called before the first frame update
@@ -31,32 +38,16 @@ namespace Sudoku.UI
         // Update is called once per frame
         void Update()
         {
-            TrySelectCell();
-        }
-        private void OnDisable()
-        {
-            //event handlers
-        }
+     
 
-
-        public void TrySelectCell()
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, mouseCellLayerMask);
-            if (raycastHit.transform.TryGetComponent<Cell>(out Cell cell))
-            {
-                SelectCellAndDeselectOthers(cell);
-            }
         }
-
-        private void SelectCellAndDeselectOthers(Cell selectedCell)
+   
+        private void OnSelectUniqueCell()
         {
             foreach(ICell cell in board.Cells)
             {
                 cell.Select(false);
             }
-
-            selectedCell.Select(true);
         }
     }
 }

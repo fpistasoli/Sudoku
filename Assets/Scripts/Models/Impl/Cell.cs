@@ -2,13 +2,16 @@ using Sudoku.Models.DataContracts;
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Sudoku.Models.Impl
 {
 
-    public class Cell : MonoBehaviour, ICell
+    public class Cell : MonoBehaviour, ICell, IPointerClickHandler
     {
+
+        public static event Action selectedCell;
 
         [SerializeField] private GameObject cellText;
 
@@ -45,6 +48,12 @@ namespace Sudoku.Models.Impl
             Highlight(on);
         }
 
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            selectedCell?.Invoke();
+            Select(true);
+        }
+
         private void Highlight(bool on)
         {
             if (on)
@@ -56,6 +65,8 @@ namespace Sudoku.Models.Impl
                 backgroundImage.color = highlightedOffColor;
             }
         }
+
+  
     }
 }
 
