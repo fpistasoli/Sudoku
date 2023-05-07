@@ -50,7 +50,16 @@ namespace Sudoku.UI
      
 
         }
-   
+
+        public void OnEraseSelectedCellNumber()
+        {
+            if (!TryGetCurrentSelectedCell(out Cell currentSelectedCell)) return;
+
+            CurrentSelectedCell = currentSelectedCell;
+
+            CurrentSelectedCell.GetCellNumberText().text = String.Empty;
+        }
+
         private void OnDeselectAllCells()
         {
             foreach(ICell cell in board.Cells)
@@ -63,7 +72,9 @@ namespace Sudoku.UI
         {
             if (!TryGetCurrentSelectedCell(out Cell currentSelectedCell)) return;
 
-            currentSelectedCell.GetCellNumberText().text = selectedNumber;
+            CurrentSelectedCell = currentSelectedCell;
+
+            CurrentSelectedCell.GetCellNumberText().text = selectedNumber;
         }
 
         private bool TryGetCurrentSelectedCell(out Cell currentSelectedCell)
