@@ -277,9 +277,8 @@ MonoBehaviour:
   - {fileID: 7325817232069497579}
   - {fileID: 7325817230357711906}
   - {fileID: 7325817230357235460}
-  mouseCellLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
+  rowsCount: 9
+  colsCount: 9
 --- !u!1 &7952300252382805091
 GameObject:
   m_ObjectHideFlags: 0

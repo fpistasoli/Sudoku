@@ -6,11 +6,7 @@ namespace Sudoku.Models.DataContracts
     {
 
         ICell[] Cells { get; }
-
-
-
-
-
+        bool IsValidCell(int row, int col, int number);
 
 
 
