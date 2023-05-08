@@ -65,8 +65,8 @@ namespace Sudoku.Models.Impl
         {
             if (currentLevel == GameManager.Level.Easy)
             {
-                _minCellsRemoved = 2; //46;
-                _maxCellsRemoved = 5; //49;
+                _minCellsRemoved = 46;
+                _maxCellsRemoved = 49;
             }
             else
             {

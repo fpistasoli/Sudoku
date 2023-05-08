@@ -25,9 +25,6 @@ namespace Sudoku.UI
 
             var winCharacterUnitGO = Instantiate(winCharacterUnitPrefab);
             
-            
-
-
             StartCoroutine(ShowBackToMenuButton());
         }
 
