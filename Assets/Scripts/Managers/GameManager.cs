@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace Sudoku.Managers
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance => _instance;
+        public static event Action mistakesUpdate;
         public enum Level { Easy, Hard };
         
         private static GameManager _instance;
@@ -51,15 +53,13 @@ namespace Sudoku.Managers
         public int Mistakes
         {
             get { return _mistakes; }
-            set { _mistakes = value; }
+            set 
+            {
+                _mistakes = value;
+                mistakesUpdate?.Invoke();
+            }
         }
-
-
-
-
-
     }
-
 }
 
 

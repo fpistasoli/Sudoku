@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Random = System.Random;
 
 namespace Sudoku.UI
 {
@@ -18,12 +19,15 @@ namespace Sudoku.UI
         [SerializeField] private Button eraseButton;
         [SerializeField] private Board board;
         [SerializeField] private GameObject mainPanel;
-        [SerializeField] private GameObject gameWinPanel;   
+        [SerializeField] private GameObject gameWinPanel;
+        [SerializeField] private Text _correctGuessText;
+        [SerializeField] private float _correctGuessFadeTime;
 
         private Color _correctColor;
         private Color _wrongColor;
-        private Cell CurrentSelectedCell { get; set; }
+        private List<string> _correctGuessPrompts;
 
+        private Cell CurrentSelectedCell { get; set; }
 
         private void OnEnable()
         {
@@ -42,12 +46,19 @@ namespace Sudoku.UI
         private void Awake()
         {
             CurrentSelectedCell = null;
+
+            _correctGuessPrompts = new List<string>();
         }
 
         void Start()
         {
             _correctColor = Color.blue;
             _wrongColor = Color.red;
+
+            _correctGuessPrompts.Add("OK!");
+            _correctGuessPrompts.Add("GOOD!");
+            _correctGuessPrompts.Add("COOL!");
+
             ActivateGameWinPanel(false);
         }
 
@@ -94,11 +105,26 @@ namespace Sudoku.UI
             {
                 GameManager.Instance.Mistakes++;
             }
-
+            else
+            {
+                Random rand = new Random();
+                _correctGuessText.text = _correctGuessPrompts[rand.Next(0, 2)];
+                StartCoroutine(FadeText(_correctGuessFadeTime, _correctGuessText));
+            }
 
             MarkCurrentCellAsCorrect(isCorrect);
             CurrentSelectedCell.SetCorrectCell(isCorrect);
-            
+        }
+
+        private IEnumerator FadeText(float correctGuessFadeTime, Text correctGuessText)
+        {
+            correctGuessText.color = new Color(correctGuessText.color.r, correctGuessText.color.g, correctGuessText.color.b, 1f);
+            while (correctGuessText.color.a > 0.0f)
+            {
+                correctGuessText.color = new Color(correctGuessText.color.r, correctGuessText.color.g, correctGuessText.color.b, 
+                    correctGuessText.color.a - (Time.deltaTime / correctGuessFadeTime));
+                yield return null;
+            }
         }
 
         private void MarkCurrentCellAsCorrect(bool isCorrect)
