@@ -9,25 +9,36 @@ namespace Sudoku.Models.Impl
     {
 
         [SerializeField] private Animator unitAnimator;
+        [SerializeField] private float jumpForceMagnitude;
 
-        // Start is called before the first frame update
+        private Rigidbody _rb;
+        private bool _isGrounded;
+
+
         void Start()
         {
-
+            _isGrounded = true;
+            _rb = GetComponent<Rigidbody>();
         }
 
-        // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
-
+            if (_isGrounded == true)
+            {
+                _rb.AddForce(transform.up * jumpForceMagnitude);
+                _isGrounded = false;
+            }
         }
 
-        private void FixedUpdate()
+        private void OnCollisionEnter(Collision collision)
         {
-            //physics for character jumping and animating
+            if (collision.gameObject.tag == "Ground") 
+            {
+                _isGrounded = true;
+                _rb.velocity = new Vector3(0, 0, 0);
+                this.enabled = false;
+            }
         }
     }
-
-
 }
 
