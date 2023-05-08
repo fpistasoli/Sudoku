@@ -1,4 +1,5 @@
 using Sudoku.Managers;
+using Sudoku.Models.Impl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Sudoku.UI
 
         [SerializeField] private GameObject mistakesCount;
         [SerializeField] private Button backToMenuButton;
-        [SerializeField] private GameObject winCharacterUnit;
+        [SerializeField] private GameObject winCharacterUnitPrefab;
         [SerializeField] private float cooldownTimerBackToMenuButton;
 
         void Start()
@@ -22,6 +23,8 @@ namespace Sudoku.UI
             mistakesCount.GetComponent<Text>().text = GameManager.Instance.Mistakes.ToString();
             backToMenuButton.gameObject.SetActive(false);
 
+            var winCharacterUnitGO = Instantiate(winCharacterUnitPrefab);
+            
             StartCoroutine(ShowBackToMenuButton());
         }
 
