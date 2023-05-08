@@ -1,3 +1,4 @@
+using Sudoku.Managers;
 using Sudoku.Models.DataContracts;
 using System;
 using System.Collections;
@@ -11,16 +12,21 @@ namespace Sudoku.Models.Impl
     {
 
         [SerializeField] private Cell[] cells;
-        private Cell[,] _grid;
-        
 
-        // Start is called before the first frame update
+        private Cell[,] _grid;
+        private int _minCellsRemoved;
+        private int _maxCellsRemoved;
+
+        private void Awake()
+        {
+            SetDifficulty(GameManager.Instance.CurrentLevel);
+        }
+     
         void Start()
         {
             InitializeGrid();
         }
 
-        // Update is called once per frame
         void Update()
         {
 
@@ -38,6 +44,20 @@ namespace Sudoku.Models.Impl
         public bool IsValidCell(int row, int col, int number)
         {
             return IsValidRow(row, number) && IsValidColumn(col, number) && IsValidBox(row, col, number);
+        }
+
+        private void SetDifficulty(GameManager.Level currentLevel)
+        {
+            if (currentLevel == GameManager.Level.Easy)
+            {
+                _minCellsRemoved = 46;
+                _maxCellsRemoved = 49;
+            }
+            else
+            {
+                _minCellsRemoved = 53;
+                _maxCellsRemoved = 56;
+            }
         }
 
         private void GridSetup()
@@ -155,7 +175,7 @@ namespace Sudoku.Models.Impl
         private void OnlyShowClues()
         {
             Random rand = new Random();
-            int removedNumbersCount = rand.Next(50, 60);
+            int removedNumbersCount = rand.Next(_minCellsRemoved, _maxCellsRemoved);
 
             for (int i = 0; i < removedNumbersCount; i++)
             {
