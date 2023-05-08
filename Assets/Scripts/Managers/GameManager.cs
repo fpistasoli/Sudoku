@@ -6,12 +6,13 @@ namespace Sudoku.Managers
 {
     public class GameManager : MonoBehaviour
     {
-        public enum Level { Easy, Hard };
-        public static int _mistakes;
         public static GameManager Instance => _instance;
-
+        public enum Level { Easy, Hard };
+        
         private static GameManager _instance;
+        private static int _mistakes;
         private Level _currentLevel;
+
 
         private void Awake()
         {
@@ -19,7 +20,7 @@ namespace Sudoku.Managers
             {
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
-                _mistakes = 0;
+                Mistakes = 0;
             }
             else
             {
@@ -46,6 +47,14 @@ namespace Sudoku.Managers
             get { return _currentLevel; }
             set { _currentLevel = value; }
         }
+
+        public int Mistakes
+        {
+            get { return _mistakes; }
+            set { _mistakes = value; }
+        }
+
+
 
 
 

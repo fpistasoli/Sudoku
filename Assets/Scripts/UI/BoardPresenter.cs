@@ -1,3 +1,4 @@
+using Sudoku.Managers;
 using Sudoku.Models.DataContracts;
 using Sudoku.Models.Impl;
 using System;
@@ -16,6 +17,8 @@ namespace Sudoku.UI
         [SerializeField] private Button[] numberButtons;
         [SerializeField] private Button eraseButton;
         [SerializeField] private Board board;
+        [SerializeField] private GameObject mainPanel;
+        [SerializeField] private GameObject gameWinPanel;   
 
         private Color _correctColor;
         private Color _wrongColor;
@@ -26,13 +29,14 @@ namespace Sudoku.UI
         {
             Cell.selectedCell += OnDeselectAllCells;
             Number.selectedNumber += OnSelectNumber;
+            board.levelComplete += OnGameWinUI;
         }
-
 
         private void OnDisable()
         {
             Cell.selectedCell -= OnDeselectAllCells;
             Number.selectedNumber -= OnSelectNumber;
+            board.levelComplete -= OnGameWinUI;
         }
 
         private void Awake()
@@ -44,6 +48,13 @@ namespace Sudoku.UI
         {
             _correctColor = Color.blue;
             _wrongColor = Color.red;
+            ActivateGameWinPanel(false);
+        }
+
+        private void ActivateGameWinPanel(bool on)
+        {
+            gameWinPanel.SetActive(on);
+            gameWinPanel.GetComponent<GameWin>().enabled = on; 
         }
 
         void Update()
@@ -78,8 +89,16 @@ namespace Sudoku.UI
 
             CurrentSelectedCell.GetCellNumberText().text = selectedNumber;
             bool isCorrect = CurrentSelectedCell.GetCorrectValue() == int.Parse(selectedNumber);
+
+            if (!isCorrect)
+            {
+                GameManager.Instance.Mistakes++;
+            }
+
+
             MarkCurrentCellAsCorrect(isCorrect);
             CurrentSelectedCell.SetCorrectCell(isCorrect);
+            
         }
 
         private void MarkCurrentCellAsCorrect(bool isCorrect)
@@ -109,6 +128,12 @@ namespace Sudoku.UI
 
             currentSelectedCell = null;
             return false;
+        }
+
+        private void OnGameWinUI()
+        {
+            mainPanel.SetActive(false);
+            ActivateGameWinPanel(true);
         }
     }
 }
