@@ -13,6 +13,7 @@ namespace Sudoku.Models.Impl
     {
 
         public static event Action selectedCell;
+        public static event Action correctCell;
 
         [SerializeField] private GameObject cellText;
 
@@ -88,7 +89,14 @@ namespace Sudoku.Models.Impl
 
         public bool IsCorrect() => _isCorrect;
 
-        public void SetCorrectCell(bool isCorrect) => _isCorrect = isCorrect;
+        public void SetCorrectCell(bool isCorrect)
+        {
+            _isCorrect = isCorrect;
+            if (isCorrect)
+            {
+                correctCell?.Invoke();
+            }
+        }
 
         public void SetCorrectValue(int correctValue) => _correctValue = correctValue;
 

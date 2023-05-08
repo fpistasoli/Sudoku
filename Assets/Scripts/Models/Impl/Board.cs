@@ -10,18 +10,33 @@ namespace Sudoku.Models.Impl
 {
     public class Board : MonoBehaviour, IBoard
     {
+        public event Action levelComplete;
 
         [SerializeField] private Cell[] cells;
 
         private Cell[,] _grid;
+        private int _totalCellsCount = 81;
+        private int _correctCellsCount;
         private int _minCellsRemoved;
         private int _maxCellsRemoved;
 
         private void Awake()
         {
+            _correctCellsCount = 0;
             SetDifficulty(GameManager.Instance.CurrentLevel);
         }
-     
+
+        private void OnEnable()
+        {
+            Cell.correctCell += OnUpdateCorrectCellsCount;
+        }
+
+        private void OnDisable()
+        {
+            Cell.correctCell -= OnUpdateCorrectCellsCount;
+        }
+
+
         void Start()
         {
             InitializeGrid();
@@ -175,9 +190,11 @@ namespace Sudoku.Models.Impl
         private void OnlyShowClues()
         {
             Random rand = new Random();
-            int removedNumbersCount = rand.Next(_minCellsRemoved, _maxCellsRemoved);
+            int removedCellsCount = rand.Next(_minCellsRemoved, _maxCellsRemoved);
 
-            for (int i = 0; i < removedNumbersCount; i++)
+            _correctCellsCount += _totalCellsCount - removedCellsCount;
+
+            for (int i = 0; i < removedCellsCount; i++)
             {
                 int row = rand.Next(0, 9);
                 int col = rand.Next(0, 9);
@@ -201,6 +218,15 @@ namespace Sudoku.Models.Impl
                 {
                     cell.HideCellNumberIfZero();
                 }
+            }
+        }
+
+        private void OnUpdateCorrectCellsCount()
+        {
+            _correctCellsCount++;
+            if (_correctCellsCount == _totalCellsCount)
+            {
+                levelComplete?.Invoke();
             }
         }
     }

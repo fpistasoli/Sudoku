@@ -8,7 +8,6 @@ using static Sudoku.Managers.GameManager;
 
 namespace Sudoku.UI
 {
-
     public class MainMenu : MonoBehaviour
     {
         [SerializeField] private Button newGameButton;
