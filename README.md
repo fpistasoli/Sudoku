@@ -41,7 +41,7 @@ When the grid is fully complete with correct answers, you are sent to the Game W
 
 ## Code reusability
 
-The project uses SOLID principles, some design/architectural patterns to ensure code scalability and resuability.
+The project uses SOLID principles, some design/architectural patterns to ensure code scalability and reusability.
 
 In particular, there are some parts of the code that could be implemented as independent modules to allow faster development of similar games in the future:
 
@@ -59,6 +59,10 @@ If the implementation for both methods in both games is similar, alternatively a
 
 - MainMenu.cs and MainScene
 The main scene could be reused for other simple games where we have two possible levels of difficulty. The script that manages the scene is fairly simple as well and could be reused or adjusted to the new game.
+
+I use the MVP pattern, for instance, to manage the Game Scene. We can see an interaction among the BoardPresenter class, Board and the View provided by the Unity Game Scene.
+
+I also use the Singleton pattern to create a single-instance GameManager that persists all throughout the game and records the number of mistakes made. Also I use the Observer pattern in event handling, where the subjects are the models and the presenters are listening for events and handles them appropriately.
 
 
 ## Unity Version
