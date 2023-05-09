@@ -1,17 +1,14 @@
 using Sudoku.Models.DataContracts;
 using System;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Sudoku.Models.Impl
 {
-
     public class Cell : MonoBehaviour, ICell, IPointerClickHandler
     {
-
         public static event Action selectedCell;
         public static event Action correctCell;
 
@@ -32,20 +29,11 @@ namespace Sudoku.Models.Impl
             _isCorrect = true;
         }
 
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public bool IsSelected => _isSelected;
+        public Text GetCellNumberText() => cellText.GetComponent<Text>();
+        public bool IsCorrect() => _isCorrect;
+        public void SetCorrectValue(int correctValue) => _correctValue = correctValue;
+        public int GetCorrectValue() => _correctValue;
 
         public void Select(bool on)
         {
@@ -58,8 +46,6 @@ namespace Sudoku.Models.Impl
             selectedCell?.Invoke();
             Select(true);
         }
-
-        public Text GetCellNumberText() => cellText.GetComponent<Text>();
 
         public int GetCellNumber()
         {
@@ -87,8 +73,6 @@ namespace Sudoku.Models.Impl
             }
         }
 
-        public bool IsCorrect() => _isCorrect;
-
         public void SetCorrectCell(bool isCorrect)
         {
             _isCorrect = isCorrect;
@@ -97,10 +81,6 @@ namespace Sudoku.Models.Impl
                 correctCell?.Invoke();
             }
         }
-
-        public void SetCorrectValue(int correctValue) => _correctValue = correctValue;
-
-        public int GetCorrectValue() => _correctValue;
 
         private void Highlight(bool on)
         {
@@ -113,8 +93,6 @@ namespace Sudoku.Models.Impl
                 _backgroundImage.color = _highlightedOffColor;
             }
         }
-
-  
     }
 }
 

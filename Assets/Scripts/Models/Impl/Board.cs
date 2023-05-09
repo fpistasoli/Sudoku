@@ -1,7 +1,6 @@
 using Sudoku.Managers;
 using Sudoku.Models.DataContracts;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
@@ -31,30 +30,17 @@ namespace Sudoku.Models.Impl
             Cell.correctCell += OnUpdateCorrectCellsCount;
         }
 
-        private void OnDisable()
-        {
-            Cell.correctCell -= OnUpdateCorrectCellsCount;
-        }
-
-
         void Start()
         {
             InitializeGrid();
         }
 
-        void Update()
+        private void OnDisable()
         {
-
+            Cell.correctCell -= OnUpdateCorrectCellsCount;
         }
 
         public ICell[] Cells => cells;
-
-        private void InitializeGrid()
-        {
-            GridSetup();
-            GridGenerator();
-            OnlyShowClues();
-        }
 
         public bool IsValidCell(int row, int col, int number)
         {
@@ -73,6 +59,13 @@ namespace Sudoku.Models.Impl
                 _minCellsRemoved = 53;
                 _maxCellsRemoved = 56;
             }
+        }
+
+        private void InitializeGrid()
+        {
+            GridSetup();
+            GridGenerator();
+            OnlyShowClues();
         }
 
         private void GridSetup()

@@ -1,16 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Sudoku.Models.Impl
 {
-
     public class Number : MonoBehaviour, IPointerClickHandler
     {
-
         public static event Action<string> selectedNumber;
 
         [SerializeField] private GameObject numberValueText;
@@ -22,7 +18,4 @@ namespace Sudoku.Models.Impl
             selectedNumber?.Invoke(text.text);
         }
     }
-
-
-
 }

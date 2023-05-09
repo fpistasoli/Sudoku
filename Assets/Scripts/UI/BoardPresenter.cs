@@ -5,8 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Random = System.Random;
 
@@ -14,9 +12,6 @@ namespace Sudoku.UI
 {
     public class BoardPresenter : MonoBehaviour
     {
-
-        [SerializeField] private Button[] numberButtons;
-        [SerializeField] private Button eraseButton;
         [SerializeField] private Board board;
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject gameWinPanel;
@@ -26,28 +21,19 @@ namespace Sudoku.UI
         private Color _correctColor;
         private Color _wrongColor;
         private List<string> _correctGuessPrompts;
-
         private Cell CurrentSelectedCell { get; set; }
+
+        private void Awake()
+        {
+            CurrentSelectedCell = null;
+            _correctGuessPrompts = new List<string>();
+        }
 
         private void OnEnable()
         {
             Cell.selectedCell += OnDeselectAllCells;
             Number.selectedNumber += OnSelectNumber;
             board.levelComplete += OnGameWinUI;
-        }
-
-        private void OnDisable()
-        {
-            Cell.selectedCell -= OnDeselectAllCells;
-            Number.selectedNumber -= OnSelectNumber;
-            board.levelComplete -= OnGameWinUI;
-        }
-
-        private void Awake()
-        {
-            CurrentSelectedCell = null;
-
-            _correctGuessPrompts = new List<string>();
         }
 
         void Start()
@@ -62,16 +48,11 @@ namespace Sudoku.UI
             ActivateGameWinPanel(false);
         }
 
-        private void ActivateGameWinPanel(bool on)
+        private void OnDisable()
         {
-            gameWinPanel.SetActive(on);
-            gameWinPanel.GetComponent<GameWin>().enabled = on; 
-        }
-
-        void Update()
-        {
-     
-
+            Cell.selectedCell -= OnDeselectAllCells;
+            Number.selectedNumber -= OnSelectNumber;
+            board.levelComplete -= OnGameWinUI;
         }
 
         public void OnEraseSelectedCellNumber()
@@ -80,6 +61,12 @@ namespace Sudoku.UI
             CurrentSelectedCell = currentSelectedCell;
             if (CurrentSelectedCell.IsCorrect()) return;
             CurrentSelectedCell.GetCellNumberText().text = String.Empty;
+        }
+
+        private void ActivateGameWinPanel(bool on)
+        {
+            gameWinPanel.SetActive(on);
+            gameWinPanel.GetComponent<GameWin>().enabled = on;
         }
 
         private void OnDeselectAllCells()
@@ -137,8 +124,6 @@ namespace Sudoku.UI
             {
                 CurrentSelectedCell.GetCellNumberText().color = _wrongColor;
             }
-
-
         }
 
         private bool TryGetCurrentSelectedCell(out Cell currentSelectedCell)
@@ -163,7 +148,3 @@ namespace Sudoku.UI
         }
     }
 }
-
-
-
-

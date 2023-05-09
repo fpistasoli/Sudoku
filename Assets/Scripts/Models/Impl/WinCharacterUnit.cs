@@ -4,16 +4,13 @@ using UnityEngine;
 
 namespace Sudoku.Models.Impl
 {
-
     public class WinCharacterUnit : MonoBehaviour
     {
-
         [SerializeField] private Animator unitAnimator;
         [SerializeField] private float jumpForceMagnitude;
 
         private Rigidbody _rb;
         private bool _isGrounded;
-
 
         void Start()
         {
@@ -41,4 +38,3 @@ namespace Sudoku.Models.Impl
         }
     }
 }
-

@@ -1,9 +1,5 @@
 using Sudoku.Managers;
-using Sudoku.Models.Impl;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,7 +8,6 @@ namespace Sudoku.UI
 {
     public class GameWin : MonoBehaviour
     {
-
         [SerializeField] private GameObject mistakesCount;
         [SerializeField] private Button backToMenuButton;
         [SerializeField] private GameObject winCharacterUnitPrefab;
@@ -28,17 +23,12 @@ namespace Sudoku.UI
             StartCoroutine(ShowBackToMenuButton());
         }
 
-
-        void Update()
-        {
-
-        }
-
         public void BackToMainMenu()
         {
             SceneManager.LoadScene(0);
             GameManager.Instance.Mistakes = 0;
         }
+
         private IEnumerator ShowBackToMenuButton()
         {
             yield return new WaitForSeconds(cooldownTimerBackToMenuButton);
@@ -46,7 +36,6 @@ namespace Sudoku.UI
             backToMenuButton.gameObject.SetActive(true);
         }
     }
-
 }
 
 
